@@ -6,16 +6,17 @@ import './App.css'
 
 function App() {
 
-  const socket = io('http://localhost:3000')
+  // const socket = io('http://localhost:3000')
 
-  socket.on('connection', () => {
-    console.log('connected')
-  });
+  // socket.on('connection', () => {
+  //   console.log('connected')
+  // });
+  //socket.emit('Hello', 'hello world')
 
   return (
     <div>
-      <Login />
-      {/* <SignUp /> */}
+      {/* <Login /> */}
+      <SignUp />
     </div>
   )
 }

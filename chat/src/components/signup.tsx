@@ -1,15 +1,70 @@
+import React, { useState } from 'react';
+import { userRegister } from '../userApi';
 
-const SignUp = () => {
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="p-6 bg-white dark:bg-black rounded shadow-md">
-        <h2 className="text-lg font-semibold text-gray-800">Sign Up</h2>
-        <form className="mt-4">
-          {/* Similar structure to Login but with additional fields like confirm password */}
-        </form>
+const SignUp: React.FC = () => {
+    const [formData, setFormData] = useState({
+      email: '',
+      password: '',
+      confirmPassword: ''
+    });
+  
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+  
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      userRegister(formData);
+    };
+  
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="max-w-md w-full bg-white p-8 border border-gray-300 rounded-md shadow-md">
+          <h2 className="mb-6 text-center text-3xl font-extrabold text-gray-900">Sign Up</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                onChange={handleChange}
+                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                onChange={handleChange}
+                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                onChange={handleChange}
+                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Sign Up
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
-  );
-};
-
-export default SignUp;
+    );
+  };
+  
+  export default SignUp;
