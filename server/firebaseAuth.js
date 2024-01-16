@@ -1,4 +1,5 @@
 const firebase = require("firebase/app");
+const admin = require("firebase-admin");
 const { getAuth, createUserWithEmailAndPassword }  = require("firebase/auth");
 
 const firebaseConfig = {
@@ -12,23 +13,26 @@ const firebaseConfig = {
   };
 
 const app = firebase.initializeApp(firebaseConfig);
-
+const serviceAccount = require("./service_account/chat-auth-232cf-firebase-adminsdk-qjy3e-bf5b60b1f4.json");
 const auth = getAuth();
 
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
+
+// Create a new user
 const creatingUser = async (email, password) => {
-    const userRecord = await getAuth().createUser({
-        email: email,
-        password: password
-    })
-    .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
-    });
+    try {
+        const userRecord = await admin.auth().createUser({
+            email: email,
+            password: password
+        });
+        console.log(userRecord);
+    }catch (error) {
+        console.log(error);
+    }
 }
 
-exports.createUser = creatingUser;
+
+
+module.exports = creatingUser;
