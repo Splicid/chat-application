@@ -29,7 +29,10 @@ const creatingUser = async (email, password) => {
         });
         console.log(userRecord);
     }catch (error) {
-        console.log(error);
+        if (error.code === 'auth/email-already-exists') {
+            const error = new Error(500);
+            throw error;
+        }
     }
 }
 

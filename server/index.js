@@ -25,7 +25,8 @@ app.post("/api/user/register", async (req, res) => {
         await creatingUser(email, password); // Use await since creatingUser is async
         res.status(200).send('User created successfully');
     } catch (error) {
-        res.status(500).send('Error creating user');
+        console.error(error);
+        res.status(500).send({ message: 'Internal server error' });
     }
 
 });
