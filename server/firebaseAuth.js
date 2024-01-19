@@ -27,14 +27,18 @@ const creatingUser = async (email, password) => {
             email: email,
             password: password
         });
-        console.log(userRecord);
-    }catch (error) {
+        return userRecord; // Return the user record on success
+    } catch (error) {
+
         if (error.code === 'auth/email-already-exists') {
-            const error = new Error(500);
-            throw error;
+            throw new Error("Email already exists"); // Throw a new error
         }
+        // For other errors, throw a generic error or re-throw the original error
+        throw new Error("An error occurred while creating the user"); 
     }
-}
+};
+
+
 
 
 

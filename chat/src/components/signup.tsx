@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { userRegister } from '../userApi';
 
 const SignUp: React.FC = () => {
+    const [error, setError] = useState('');
     const [formData, setFormData] = useState({
       email: '',
       password: '',
@@ -61,6 +62,7 @@ const SignUp: React.FC = () => {
             >
               Sign Up
             </button>
+            {error && <div className="error-message">{error}</div>}
           </form>
         </div>
       </div>

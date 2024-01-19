@@ -11,7 +11,6 @@ export const userRegister = (userData: any) => {
         if (res.status === 200) {
             console.log(res)
         }
-        console.log(res)
     }).catch((err) => {
         console.log(err)
     })
