@@ -2,7 +2,7 @@ const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const creatingUser = require("./firebaseAuth");
+const { creatingUser, getId } = require("./firebaseAuth");
 const { type } = require("os");
 
 
@@ -15,8 +15,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-
 app.post("/api/user/register", async (req, res) => {
     try {
         const email = req.body.userData.email;
@@ -25,6 +23,17 @@ app.post("/api/user/register", async (req, res) => {
         const userRecord = await creatingUser(email, password);
         res.status(200).send({ userId: userRecord.uid });
         
+    } catch (error) {
+        res.status(error.code || 500).send(error.message);
+    }
+});
+
+app.get("/api/user/id", async (req, res) => {
+    //console.log(req.query.formData)
+    try {
+        const email = req.query.formData.email;
+        const uid = await getId(email);
+        res.status(200).send({ userId: uid });
     } catch (error) {
         res.status(error.code || 500).send(error.message);
     }

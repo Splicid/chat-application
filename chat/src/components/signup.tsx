@@ -13,9 +13,15 @@ const SignUp: React.FC = () => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
   
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-      userRegister(formData);
+      try {
+        const result = await userRegister(formData);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+            setError(error.message);
+        }
+      }
     };
   
     return (

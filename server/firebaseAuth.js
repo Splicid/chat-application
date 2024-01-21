@@ -27,6 +27,8 @@ const creatingUser = async (email, password) => {
             email: email,
             password: password
         });
+        const uid = userRecord.uid;
+        console.log(uid);
         return userRecord; // Return the user record on success
     } catch (error) {
 
@@ -38,8 +40,17 @@ const creatingUser = async (email, password) => {
     }
 };
 
+const getId = async (email) => {
+    try {
+        const user = await admin.auth().getUserByEmail(email);
+        return user.uid;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 
 
 
 
-module.exports = creatingUser;
+
+module.exports = { creatingUser, getId };

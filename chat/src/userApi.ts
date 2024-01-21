@@ -1,20 +1,54 @@
 import axios from "axios"
 
-export const userApi = (userData: any) => {
-    console.log(userData)
-}
-
-export const userRegister = (userData: any) => {
-    axios.post('http://localhost:3000/api/user/register', 
-    {userData}
-    ).then((res) => {
+export const userRegister = async (userData: any) => {
+    try {
+        const res = await axios.post('http://localhost:3000/api/user/register', { userData });
         if (res.status === 200) {
-            console.log(res)
+            return res.data;
         }
-    }).catch((err) => {
-        console.log(err)
-    })
+    } catch (err: any) {
+        // Ensure we are throwing an Error instance
+        if (err.response && err.response.data && err.response.data.message) {
+            throw new Error(err.response.data.message);
+        } else {
+            console.log(err)
+            throw new Error(err.response.data);
+        }
+    }
+};
+
+// expecting userData to be { email: string, password: string }
+export const userLogin = async (userData: any) => {
+    try {
+        const res = await axios.post('http://localhost:3000/api/user/login', { userData });
+        if (res.status === 200) {
+            return res.data;
+        }
+    } catch (err: any) {
+        // Ensure we are throwing an Error instance
+        if (err.response && err.response.data && err.response.data.message) {
+            throw new Error(err.response.data.message);
+        } else {
+            console.log(err)
+            throw new Error(err.response.data);
+        }
+    }
 }
 
+export const getUser = async (formData: any) => {
+    try {
+        const res = await axios.get('http://localhost:3000/api/user/id', { params: { formData } });
+        if (res.status === 200) {
+            return res.data;
+        }
+    } catch (err: any) {
+        // Ensure we are throwing an Error instance
+        if (err.response && err.response.data && err.response.data.message) {
+            throw new Error(err.response.data.message);
+        } else {
+            console.log(err)
+            throw new Error(err.response.data);
+        }
+    }
 
-
+}
