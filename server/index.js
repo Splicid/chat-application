@@ -2,13 +2,14 @@ const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const { creatingUser, getId } = require("./firebaseAuth");
+const { creatingUser, getId, UserWithEmailAndPassword } = require("./firebaseAuth");
 const { type } = require("os");
 
 
 const app = express();
 const httpServer = createServer(app);
 const serviceAccount = require("./service_account/chat-auth-232cf-firebase-adminsdk-qjy3e-bf5b60b1f4.json");
+const e = require("express");
 
 
 app.use(cors());
@@ -28,12 +29,16 @@ app.post("/api/user/register", async (req, res) => {
     }
 });
 
-app.get("/api/user/id", async (req, res) => {
-    //console.log(req.query.formData)
+app.get("/api/user/login", async (req, res) => {
     try {
         const email = req.query.formData.email;
-        const uid = await getId(email);
-        res.status(200).send({ userId: uid });
+        const password = req.query.formData.password;
+        const user = await UserWithEmailAndPassword(email, password);
+        if (user) {
+            res.status(200).json({ userId: user.uid });
+        } else {
+            res.status(400).json({ message: "Invalid credentials" });
+        }
     } catch (error) {
         res.status(error.code || 500).send(error.message);
     }

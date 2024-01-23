@@ -1,6 +1,6 @@
 const firebase = require("firebase/app");
 const admin = require("firebase-admin");
-const { getAuth, createUserWithEmailAndPassword }  = require("firebase/auth");
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword }  = require("firebase/auth");
 
 const firebaseConfig = {
     apiKey: "AIzaSyAXXNGbMqTWxxY7KoCwbPKwsgEspA4kPL8",
@@ -40,6 +40,17 @@ const creatingUser = async (email, password) => {
     }
 };
 
+const UserWithEmailAndPassword = async (email, password) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        return user;
+    } catch (error) {
+        throw new Error(error.code);
+
+    }
+}
+
 const getId = async (email) => {
     try {
         const user = await admin.auth().getUserByEmail(email);
@@ -53,4 +64,4 @@ const getId = async (email) => {
 
 
 
-module.exports = { creatingUser, getId };
+module.exports = { creatingUser, getId, UserWithEmailAndPassword };

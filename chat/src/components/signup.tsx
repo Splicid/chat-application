@@ -17,6 +17,7 @@ const SignUp: React.FC = () => {
       e.preventDefault();
       try {
         const result = await userRegister(formData);
+        console.log(result);
       } catch (error: unknown) {
         if (error instanceof Error) {
             setError(error.message);
