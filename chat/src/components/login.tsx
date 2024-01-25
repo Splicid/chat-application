@@ -7,6 +7,7 @@ const Login = () => {
         email: "",
         password: "",
     });
+    const [error, setError] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,7 +20,7 @@ const Login = () => {
             console.log(result);
         } catch (error: unknown) {
             if (error instanceof Error) {
-                console.log(error.message);
+                setError(error.message);
             }
         }
     }
@@ -50,6 +51,7 @@ const Login = () => {
                 />
           </div>
           <button type="submit" className="w-full px-4 py-2 mt-4 text-white bg-blue-500 rounded dark:hover:bg-button-hover dark:bg-button-color text-button-text">Log In</button>
+          {error && <div className="error-message">{error}</div>}
         </form>
       </div>
     </div>

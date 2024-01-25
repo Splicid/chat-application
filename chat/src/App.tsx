@@ -1,15 +1,13 @@
-import { useState } from 'react'
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link
 } from 'react-router-dom';
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import Login from './components/login'
 import SignUp from './components/signup';
 import './App.css'
-
 
 
 const App: React.FC = () => {

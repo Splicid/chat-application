@@ -5,12 +5,10 @@ const cors = require("cors");
 const { creatingUser, getId, UserWithEmailAndPassword } = require("./firebaseAuth");
 const { type } = require("os");
 
-
 const app = express();
 const httpServer = createServer(app);
 const serviceAccount = require("./service_account/chat-auth-232cf-firebase-adminsdk-qjy3e-bf5b60b1f4.json");
 const e = require("express");
-
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -34,6 +32,7 @@ app.get("/api/user/login", async (req, res) => {
         const email = req.query.formData.email;
         const password = req.query.formData.password;
         const user = await UserWithEmailAndPassword(email, password);
+        
         if (user) {
             res.status(200).json({ userId: user.uid });
         } else {
@@ -43,8 +42,6 @@ app.get("/api/user/login", async (req, res) => {
         res.status(error.code || 500).send(error.message);
     }
 });
-
-
 
 
 // Will continue to work on this later
