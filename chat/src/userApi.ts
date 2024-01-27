@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const userRegister = async (userData: any) => {
-    
+
     try {
         const res = await axios.post('http://localhost:3000/api/user/register', { userData });
         if (res.status === 200) {
