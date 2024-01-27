@@ -60,8 +60,18 @@ const getId = async (email) => {
     }
 }
 
+const customToken = async (uid) => {
+    try {
+        const token = await admin.auth().createCustomToken(uid);
+        console.log(token)
+        return token;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 
 
 
 
-module.exports = { creatingUser, getId, UserWithEmailAndPassword };
+
+module.exports = { creatingUser, getId, UserWithEmailAndPassword, customToken };

@@ -2,7 +2,7 @@ const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const { creatingUser, getId, UserWithEmailAndPassword } = require("./firebaseAuth");
+const { creatingUser, getId, UserWithEmailAndPassword, customToken } = require("./firebaseAuth");
 const { type } = require("os");
 
 const app = express();
@@ -32,9 +32,11 @@ app.get("/api/user/login", async (req, res) => {
         const email = req.query.formData.email;
         const password = req.query.formData.password;
         const user = await UserWithEmailAndPassword(email, password);
-        
+
         if (user) {
-            res.status(200).json({ userId: user.uid });
+            const uid = await getId(email);
+            const token = await customToken(uid);
+            res.status(200).json({ userToken: token });
         } else {
             res.status(400).json({ message: "Invalid credentials" });
         }

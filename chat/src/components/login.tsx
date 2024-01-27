@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { getUser } from "../userApi";
 
 const Login = () => {
@@ -8,6 +9,7 @@ const Login = () => {
         password: "",
     });
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,7 +19,7 @@ const Login = () => {
         e.preventDefault();
         try {
             const result = await getUser(formData);
-            console.log(result);
+            navigate('/main-page');
         } catch (error: unknown) {
             if (error instanceof Error) {
                 setError(error.message);
