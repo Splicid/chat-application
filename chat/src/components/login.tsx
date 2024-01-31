@@ -1,31 +1,33 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { getUser } from "../userApi";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./auth/fireAuth";
 
 const Login = () => {
 
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-    });
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+      email: "",
+      password: "",
+  });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            const result = await getUser(formData);
-            navigate('/main-page');
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                setError(error.message);
-            }
-        }
-    }
+  const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      try {
+          const userAuth = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+          console.log(userAuth)
+          //navigate('/main-page');
+      } catch (error: unknown) {
+          if (error instanceof Error) {
+              setError(error.message);
+          }
+      }
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background-dark">

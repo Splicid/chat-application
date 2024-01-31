@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { userRegister } from '../userApi';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./auth/fireAuth";
 
 const SignUp: React.FC = () => {
     const [error, setError] = useState('');
@@ -16,8 +17,8 @@ const SignUp: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       try {
-        const result = await userRegister(formData);
-        console.log(result);
+        const userCreate = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+        console.log(userCreate.user);
       } catch (error: unknown) {
         if (error instanceof Error) {
             setError(error.message);
